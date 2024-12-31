@@ -3,6 +3,8 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component, Output, EventEmitter } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { queryString, getTextContent } from 'src/utils'
 import { setWebsiteList, updateByWeb } from 'src/utils/web'
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms'
@@ -12,9 +14,37 @@ import { saveUserCollect, getWebInfo } from 'src/api'
 import { $t } from 'src/locale'
 import { settings, websiteList, tagList, tagMap } from 'src/store'
 import { isLogin } from 'src/utils/user'
+import { NzModalModule } from 'ng-zorro-antd/modal'
+import { NzFormModule } from 'ng-zorro-antd/form'
+import { NzInputModule } from 'ng-zorro-antd/input'
+import { NzSwitchModule } from 'ng-zorro-antd/switch'
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox'
+import { NzRateModule } from 'ng-zorro-antd/rate'
+import { LogoComponent } from 'src/components/logo/logo.component'
+import { UploadComponent } from 'src/components/upload/index.component'
+import { NzIconModule } from 'ng-zorro-antd/icon'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzSelectModule } from 'ng-zorro-antd/select'
 import event from 'src/utils/mitt'
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NzSelectModule,
+    NzModalModule,
+    NzFormModule,
+    NzInputModule,
+    NzSwitchModule,
+    NzCheckboxModule,
+    NzRateModule,
+    LogoComponent,
+    UploadComponent,
+    NzIconModule,
+    NzButtonModule,
+  ],
   selector: 'app-create-web',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
@@ -104,8 +134,7 @@ export class CreateWebComponent {
     if (detail) {
       if (Array.isArray(detail.tags)) {
         detail.tags.forEach((item: IWebTag) => {
-          // @ts-ignore
-          this.validateForm?.get('urlArr').push?.(
+          ;(this.validateForm?.get('urlArr') as FormArray).push?.(
             this.fb.group({
               id: Number(item.id),
               name: tagMap[item.id].name ?? '',
@@ -185,8 +214,7 @@ export class CreateWebComponent {
   }
 
   addMoreUrl() {
-    // @ts-ignore
-    this.validateForm.get('urlArr').push(
+    ;(this.validateForm.get('urlArr') as FormArray).push(
       this.fb.group({
         id: '',
         name: '',
@@ -196,8 +224,7 @@ export class CreateWebComponent {
   }
 
   lessMoreUrl(idx: number) {
-    // @ts-ignore
-    this.validateForm.get('urlArr').removeAt(idx)
+    ;(this.validateForm.get('urlArr') as FormArray).removeAt(idx)
   }
 
   onChangeFile(data: any) {

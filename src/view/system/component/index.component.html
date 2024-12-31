@@ -12,6 +12,20 @@
   {{ $t('_buildTip') }}
 </div>
 
+<div class="mb-4">
+  <div class="flex items-center">
+    <span class="mr-2">Size:</span>
+    <nz-slider
+      style="width: 200px"
+      [(ngModel)]="compoentZoom"
+      [nzStep]="0.1"
+      [nzMin]="0.1"
+      [nzMax]="2"
+      (ngModelChange)="handleZoomChange($event)"
+    ></nz-slider>
+  </div>
+</div>
+
 <div class="flex gap-4 w-full flex-wrap select-none">
   <div *ngFor="let item of components; let idx = index; trackBy: trackByItem">
     <ng-container [ngSwitch]="item.type">
@@ -20,6 +34,8 @@
       <app-offwork *ngSwitchCase="ComponentType.OffWork" [data]="item" />
       <app-image *ngSwitchCase="ComponentType.Image" [data]="item" />
       <app-countdown *ngSwitchCase="ComponentType.Countdown" [data]="item" />
+      <app-html *ngSwitchCase="ComponentType.HTML" [data]="item" />
+      <app-holiday *ngSwitchCase="ComponentType.Holiday" [data]="item" />
     </ng-container>
 
     <div class="text-center mt-3">
@@ -49,3 +65,5 @@
 <offwork-drawer #offwork (ok)="handleOk($event)" />
 <image-drawer #image (ok)="handleOk($event)" />
 <countdown-drawer #countdown (ok)="handleOk($event)" />
+<html-drawer #html (ok)="handleOk($event)" />
+<holiday-drawer #holiday (ok)="handleOk($event)" />

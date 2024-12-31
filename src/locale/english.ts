@@ -1,4 +1,6 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
+// Copyright @ 2018-present xiejiahe. All rights reserved.
+// See https://github.com/xjh22222228/nav
 import { isSelfDevelop } from 'src/utils/util'
 
 const english: Record<string, any> = {
@@ -41,8 +43,10 @@ const english: Record<string, any> = {
   _prevDevTime: 'Last build time',
   _unknow: 'Unknow',
   _repeatOper: 'Please do not operate frequently',
-  _syncDataOut: isSelfDevelop ? 'OK to sync' : 'Synchronize data to remote',
-  _confirmSync: 'OK to sync',
+  _syncDataOut: isSelfDevelop
+    ? 'Are you sure to save'
+    : 'Synchronize data to remote',
+  _confirmSync: 'OK',
   _confirmSyncTip: isSelfDevelop
     ? ''
     : 'Are you sure to synchronize all data to the remote end?',
@@ -133,7 +137,6 @@ const english: Record<string, any> = {
   _tagSettings: 'Tag',
   _websiteMang: 'Website',
   _addRow: 'Add',
-  _bookImportTip: `<p>Supports most mainstream browsers. If the import fails, it is temporarily not supported</p>`,
   _engineName: 'Engine name',
   _status: 'Status',
   _isDisable: 'Disable',
@@ -271,6 +274,20 @@ const english: Record<string, any> = {
   _timeColor: 'Time color',
   _date: 'Date',
   _time: 'Time',
+  _workHours: 'Work hours',
+  _breakTime: 'Break time',
+  _holiday: 'Holiday',
+  _year: 'Year',
+  _day: 'Day',
+  _calendarDate: '{year}.{month}',
+  _dayOfYear: 'Day {day}',
+  _errCountTip:
+    "Last time, {count} website links were detected to be invalid. Please refer to the management website for details. If you need to check the status again, simply click on 'Save' to trigger the event.",
+  _getErrorWeb: 'Get error web',
+  _categoryName: 'Name',
+  _dayIs: 'Today is',
+  _rest: 'R',
+  _distance: 'Distance',
 }
 
 export default english

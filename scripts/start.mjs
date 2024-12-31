@@ -9,6 +9,7 @@ import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
 import defaultDb from './db.mjs'
 import yaml from 'js-yaml'
+import LZString from 'lz-string'
 import {
   TAG_ID1,
   TAG_ID2,
@@ -56,9 +57,20 @@ let tags = []
 let search = []
 let components = []
 try {
-  db = JSON.parse(fs.readFileSync(dbPath).toString())
-} catch (error) {
-  db = defaultDb
+  const strings = fs.readFileSync(dbPath).toString().trim()
+  if (!strings) {
+    throw new Error('empty')
+  }
+  if (strings[0] === '[' && strings.at(-1) === ']') {
+    db = JSON.parse(strings)
+  } else {
+    db = JSON.parse(LZString.decompressFromBase64(strings))
+    if (!db) {
+      db = JSON.parse(LZString.decompressFromBase64(defaultDb))
+    }
+  }
+} catch (e) {
+  db = JSON.parse(LZString.decompressFromBase64(defaultDb))
 }
 try {
   internal = JSON.parse(fs.readFileSync(internalPath).toString())
@@ -88,28 +100,14 @@ try {
     components.push(calendar)
   }
   //
-  idx = components.findIndex((item) => item.type === 3)
-  const runtime = {
-    type: 3,
-    id: -3,
-    title: '已稳定运行',
-  }
-  if (idx >= 0) {
-    components[idx] = {
-      ...runtime,
-      ...components[idx],
-    }
-  } else {
-    components.push(runtime)
-  }
-  //
   idx = components.findIndex((item) => item.type === 2)
   const offWork = {
     type: 2,
     id: -2,
     workTitle: '距离下班还有',
     restTitle: '休息啦',
-    date: dayjs.tz(new Date(2024, 7, 26, 18, 0, 0)).valueOf(),
+    startDate: new Date(2018, 3, 26, 9, 0, 0).getTime(),
+    date: new Date(2018, 3, 26, 18, 0, 0).getTime(),
   }
   if (idx >= 0) {
     components[idx] = {
@@ -125,6 +123,7 @@ try {
     type: 4,
     id: -4,
     url: 'https://gcore.jsdelivr.net/gh/xjh22222228/public@gh-pages/nav/component1.jpg',
+    go: '',
     text: '只有认可，才能强大',
   }
   if (idx >= 0) {
@@ -157,6 +156,50 @@ try {
     components[idx].url = replaceJsdelivrCDN(components[idx].url, settings)
   } else {
     components.push(countdown)
+  }
+  //
+  idx = components.findIndex((item) => item.type === 3)
+  const runtime = {
+    type: 3,
+    id: -3,
+    title: '已稳定运行',
+  }
+  if (idx >= 0) {
+    components[idx] = {
+      ...runtime,
+      ...components[idx],
+    }
+  } else {
+    components.push(runtime)
+  }
+  //
+  idx = components.findIndex((item) => item.type === 6)
+  const html = {
+    type: 6,
+    id: -6,
+    html: 'hello world',
+  }
+  if (idx >= 0) {
+    components[idx] = {
+      ...html,
+      ...components[idx],
+    }
+  } else {
+    components.push(html)
+  }
+  idx = components.findIndex((item) => item.type === 7)
+  const holiday = {
+    type: 7,
+    id: -7,
+    items: [],
+  }
+  if (idx >= 0) {
+    components[idx] = {
+      ...holiday,
+      ...components[idx],
+    }
+  } else {
+    components.push(holiday)
   }
   fs.writeFileSync(componentPath, JSON.stringify(components))
 }

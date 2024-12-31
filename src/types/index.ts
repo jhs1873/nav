@@ -21,6 +21,8 @@ export enum ComponentType {
   Runtime = 3,
   Image = 4,
   Countdown = 5,
+  HTML = 6,
+  Holiday = 7,
 }
 
 export interface IComponentProps {

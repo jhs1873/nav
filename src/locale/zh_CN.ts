@@ -1,4 +1,6 @@
 // 开源项目，未经作者同意，不得以抄袭/复制代码/修改源代码版权信息。
+// Copyright @ 2018-present xiejiahe. All rights reserved.
+// See https://github.com/xjh22222228/nav
 import { isSelfDevelop } from 'src/utils/util'
 
 const zhCN: Record<string, any> = {
@@ -41,8 +43,8 @@ const zhCN: Record<string, any> = {
   _prevDevTime: '上次构建时间',
   _unknow: '未知',
   _repeatOper: '请不要频繁操作',
-  _syncDataOut: isSelfDevelop ? '确定同步吗？' : '同步数据到远端',
-  _confirmSync: '确定同步',
+  _syncDataOut: isSelfDevelop ? '确定保存吗？' : '同步数据到远端',
+  _confirmSync: '确定',
   _confirmSyncTip: isSelfDevelop
     ? ''
     : '确定将所有数据同步到远端吗？（每次保存需要等待构建完成再进行下一次操作）',
@@ -130,7 +132,6 @@ const zhCN: Record<string, any> = {
   _tagSettings: '标签设置',
   _websiteMang: '网站管理',
   _addRow: '新增一条',
-  _bookImportTip: `<p>支持大部分主流浏览器，若导入失败表示暂不支持</p><p>自动检测满足三级分类导航，其他一律设为未分类</p>`,
   _engineName: '引擎名称',
   _status: '状态',
   _isDisable: '是否禁用',
@@ -263,6 +264,20 @@ const zhCN: Record<string, any> = {
   _timeColor: '时间颜色',
   _date: '日期',
   _time: '时间',
+  _workHours: '工作时间',
+  _breakTime: '休息时间',
+  _holiday: '节假日',
+  _year: '年',
+  _day: '天',
+  _calendarDate: '{year}年{month}月',
+  _dayOfYear: '第{day}天',
+  _errCountTip:
+    '上次检测出 {count} 个网站链接失效，具体到管理网站查看，如需再次检测状态直接点保存触发事件即可。',
+  _getErrorWeb: '检索所有异常网站',
+  _categoryName: '分类名称',
+  _dayIs: '今天是',
+  _rest: '休',
+  _distance: '距离',
 }
 
 export default zhCN

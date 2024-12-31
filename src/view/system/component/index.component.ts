@@ -3,6 +3,9 @@
 // See https://github.com/xjh22222228/nav
 
 import { Component, ViewChild } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { FormsModule } from '@angular/forms'
+import { NgSwitch, NgSwitchCase } from '@angular/common'
 import { $t } from 'src/locale'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzModalService } from 'ng-zorro-antd/modal'
@@ -15,11 +18,48 @@ import { RuntimeDrawerComponent } from 'src/components/runtime/drawer/index.comp
 import { OffWorkDrawerComponent } from 'src/components/off-work/drawer/index.component'
 import { ImageDrawerComponent } from 'src/components/image/drawer/index.component'
 import { CountdownDrawerComponent } from 'src/components/countdown/drawer/index.component'
+import { HTMLDrawerComponent } from 'src/components/html/drawer/index.component'
+import { HolidayDrawerComponent } from 'src/components/holiday/drawer/index.component'
 import { componentTitleMap } from './types'
 import { isSelfDevelop } from 'src/utils/util'
+import { NzButtonModule } from 'ng-zorro-antd/button'
+import { NzSliderModule } from 'ng-zorro-antd/slider'
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm'
+import { CalendarComponent } from 'src/components/calendar/index.component'
+import { RuntimeComponent } from 'src/components/runtime/index.component'
+import { OffWorkComponent } from 'src/components/off-work/index.component'
+import { ImageComponent } from 'src/components/image/index.component'
+import { CountdownComponent } from 'src/components/countdown/index.component'
+import { HTMLComponent } from 'src/components/html/index.component'
+import { HolidayComponent } from 'src/components/holiday/index.component'
 import event from 'src/utils/mitt'
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    NgSwitch,
+    NgSwitchCase,
+    FormsModule,
+    NzButtonModule,
+    NzSliderModule,
+    CalendarComponent,
+    RuntimeComponent,
+    OffWorkComponent,
+    ImageComponent,
+    CountdownComponent,
+    HTMLComponent,
+    HolidayComponent,
+    NzPopconfirmModule,
+    CalendarDrawerComponent,
+    RuntimeDrawerComponent,
+    OffWorkDrawerComponent,
+    ImageDrawerComponent,
+    CountdownDrawerComponent,
+    HTMLDrawerComponent,
+    HolidayDrawerComponent,
+  ],
+  providers: [NzMessageService, NzModalService],
   selector: 'system-component',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
@@ -30,6 +70,8 @@ export default class SystemComponentComponent {
   @ViewChild('offwork') offworkChild!: OffWorkDrawerComponent
   @ViewChild('image') imageChild!: ImageDrawerComponent
   @ViewChild('countdown') countdownChild!: CountdownDrawerComponent
+  @ViewChild('html') htmlChild!: HTMLDrawerComponent
+  @ViewChild('holiday') holidayChild!: HolidayDrawerComponent
 
   $t = $t
   isSelfDevelop = isSelfDevelop
@@ -37,6 +79,7 @@ export default class SystemComponentComponent {
   ComponentType = ComponentType
   components = components
   submitting: boolean = false
+  compoentZoom = components[0]['zoom'] || 1
 
   constructor(
     private message: NzMessageService,
@@ -75,6 +118,8 @@ export default class SystemComponentComponent {
       [ComponentType.Runtime]: this.runtimeChild,
       [ComponentType.Image]: this.imageChild,
       [ComponentType.Countdown]: this.countdownChild,
+      [ComponentType.HTML]: this.htmlChild,
+      [ComponentType.Holiday]: this.holidayChild,
     }
     types[type]?.open(data, idx)
   }
@@ -88,7 +133,16 @@ export default class SystemComponentComponent {
     })
   }
 
-  onDelete(idx: number) {}
+  onDelete(idx: number) {
+    this.components.splice(idx, 1)
+  }
+
+  handleZoomChange(value: number) {
+    this.components = this.components.map((item) => {
+      item['zoom'] = value
+      return item
+    })
+  }
 
   handleOk(data: any) {
     const { index, ...values } = data

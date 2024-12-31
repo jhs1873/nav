@@ -4,11 +4,11 @@
 
 import { Component, Input } from '@angular/core'
 import { getDateTime, getDayOfYear } from 'src/utils'
-import { components } from 'src/store'
-import { ComponentType, IComponentProps } from 'src/types'
-import event from 'src/utils/mitt'
+import { IComponentProps } from 'src/types'
+import { $t } from 'src/locale'
 
 @Component({
+  standalone: true,
   selector: 'app-calendar',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
@@ -16,29 +16,16 @@ import event from 'src/utils/mitt'
 export class CalendarComponent {
   @Input() data!: IComponentProps
 
-  component: Record<string, any> = {}
   date = ''
-  day = 0
+  day = ''
   week = ''
-  dayOfYear = 0
+  dayOfYear = ''
 
   constructor() {
     const date = getDateTime()
-    this.date = `${date.year}年${date.month}月`
-    this.day = date.date
+    this.date = $t('_calendarDate', { year: date.year, month: date.month })
+    this.day = date.zeroDate
     this.week = date.dayText
-    this.dayOfYear = getDayOfYear()
-  }
-
-  ngOnInit() {
-    this.init()
-    event.on('COMPONENT_OK', this.init.bind(this))
-  }
-
-  init() {
-    const data = components.find(
-      (item) => item.type === ComponentType.Calendar && item.id === this.data.id
-    )
-    this.component = data || {}
+    this.dayOfYear = $t('_dayOfYear', { day: getDayOfYear() })
   }
 }

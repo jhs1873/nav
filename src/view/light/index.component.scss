@@ -43,6 +43,11 @@
     column-gap: 20px;
     overflow: hidden;
   }
+  .component-box {
+    width: 320px;
+    overflow: hidden;
+    overflow-y: auto;
+  }
   .right {
     width: var(--rightWidth, 230px);
     min-width: var(--rightWidth, 230px);
@@ -120,12 +125,14 @@
     height: calc(100% - 25px);
     text-align: center;
     border-right: 1px solid #eee;
+    overflow: hidden;
     overflow-y: auto;
 
     .tag {
       position: relative;
       cursor: pointer;
-      padding: 11px 0;
+      padding: 11px 1px;
+      overflow-wrap: break-word;
       &.active {
         color: #1890ff;
         &::after,

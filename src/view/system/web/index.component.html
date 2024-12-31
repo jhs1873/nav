@@ -20,15 +20,14 @@
     {{ $t('_backup') }}
   </button>
 
-  <label id="file2">
-    <button
-      nz-button
-      nz-tooltip
-      nzTooltipPlacement="bottom"
-      [nzTooltipTitle]="$t('_importBackupTip')"
-    >
-      {{ $t('_importBackup') }}
-    </button>
+  <label
+    id="file2"
+    nz-button
+    nz-tooltip
+    nzTooltipPlacement="bottom"
+    [nzTooltipTitle]="$t('_importBackupTip')"
+  >
+    {{ $t('_importBackup') }}
     <input
       type="file"
       name="file2"
@@ -39,9 +38,7 @@
   </label>
 
   <div class="tip2">
-    上次检测出
-    {{ settings.errorUrlCount || 0 }}
-    个网站链接失效，具体到管理网站查看，如需再次检测状态直接点保存触发事件即可。
+    {{ $t('_errCountTip', { count: settings.errorUrlCount || 0 }) }}
   </div>
 
   <nz-tabset
@@ -407,7 +404,7 @@
         (click)="getAllErrorWeb()"
         style="margin-left: 20px"
       >
-        检索所有异常网站
+        {{ $t('_getErrorWeb') }}
       </button>
       <button
         nz-popconfirm
@@ -437,7 +434,7 @@
               (nzCheckedChange)="onAllChecked($event, 4)"
             ></th>
             <th nzWidth="60px" class="text-center">{{ $t('_action') }}</th>
-            <th nzWidth="70px">状态</th>
+            <th nzWidth="70px">{{ $t('_status') }}</th>
             <th nzWidth="80px">{{ $t('_icon') }}</th>
             <th nzWidth="100px">{{ $t('_webName') }}</th>
             <th nzWidth="100px">{{ $t('_associatedLabels') }}</th>
@@ -516,54 +513,7 @@
   </nz-tabset>
 </div>
 
-<nz-modal
-  [(nzVisible)]="showCreateModal"
-  [nzTitle]="isEdit ? $t('_edit') : $t('_add')"
-  (nzOnCancel)="toggleCreateModal()"
-  (nzOnOk)="handleOk()"
->
-  <ng-container *nzModalContent>
-    <form nz-form [formGroup]="validateForm">
-      <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzRequired>分类名称</nz-form-label>
-        <nz-form-control [nzSpan]="18" [nzErrorTip]="$t('_requiredName')">
-          <input
-            formControlName="title"
-            nz-input
-            [placeholder]="$t('_webTitle')"
-            [maxlength]="50"
-          />
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzRequired>{{
-          $t('_onlyOwnVisible')
-        }}</nz-form-label>
-        <nz-form-control [nzSpan]="18">
-          <nz-switch formControlName="ownVisible"></nz-switch>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label [nzSpan]="6">图标地址</nz-form-label>
-        <nz-form-control [nzSpan]="18">
-          <nz-input-group [nzPrefix]="prefixIcon" [nzSuffix]="suffixIconSearch">
-            <input
-              formControlName="icon"
-              nz-input
-              placeholder="用于某些主题icon"
-            />
-          </nz-input-group>
-
-          <ng-template #prefixIcon>
-            <app-logo [src]="iconUrl" [size]="25" *ngIf="iconUrl" />
-          </ng-template>
-          <ng-template #suffixIconSearch>
-            <app-upload (onChange)="onChangeFile($event)"></app-upload>
-          </ng-template>
-        </nz-form-control>
-      </nz-form-item>
-    </form>
-  </ng-container>
-</nz-modal>
+<edit-category
+  (onOk)="handleOk($event)"
+  [title]="isEdit ? $t('_edit') : $t('_add')"
+/>
